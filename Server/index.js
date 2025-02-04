@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const userRoute = require("./routes/user.route");
+const busRoute = require("./routes/bus.route");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -17,6 +18,7 @@ app.use(
 
 app.use(express.json());
 app.use("/api/v1/user", userRoute);
+app.use("/api/v1/bus", busRoute);
 
 //database connection
 mongoose

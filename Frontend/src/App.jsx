@@ -4,6 +4,7 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import Home from "./pages/Home";
 import Dashboard from "./pages/AdminDashboard";
+import AddBus from "./components/Addbus";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/create" element={<AddBus />} />
 
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<SignIn />} />

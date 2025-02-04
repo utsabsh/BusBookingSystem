@@ -6,6 +6,7 @@ import axios from "axios";
 
 const Getbus = () => {
   const [buses, setBuses] = useState([]);
+
   const fetchBus = async () => {
     try {
       const res = await axios.get(`${Bus_API_END_POINT}/get`);
@@ -25,7 +26,7 @@ const Getbus = () => {
     <div className="space-y-4">
       {buses.map((bus) => (
         <div
-          key={bus.id}
+          key={bus._id}
           className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center"
         >
           <div>
@@ -40,9 +41,12 @@ const Getbus = () => {
               Seats available: {bus.available_seats}/{bus.total_seats}
             </p>
             <div className="flex space-x-2">
-              <button className="mt-2 py-1 px-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+              <Link
+                to={`/dashboard/editBus/${bus._id}`}
+                className="mt-2 py-1 px-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+              >
                 Edit
-              </button>
+              </Link>
               <button className="mt-2 py-1 px-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
                 Delete
               </button>

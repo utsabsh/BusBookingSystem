@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Dashboard from "./pages/AdminDashboard";
 import AddBus from "./components/Addbus";
 import Getbus from "./components/Getbus";
+import EditBus from "./components/Editbus";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="/dashboard/getBus" element={<Getbus />} />
           <Route path="/dashboard/addBus" element={<AddBus />} />
+          <Route path="/dashboard/editBus/:id" element={<EditBus />} />
         </Route>
         <Route path="/create" element={<AddBus />} />
         <Route path="/getBus" element={<Getbus />} />

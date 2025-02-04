@@ -20,7 +20,7 @@ const getAllBuses = async (req, res) => {
     const buses = await Bus.find();
     res.status(200).json(buses);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message, success: false });
   }
 };
 
@@ -31,7 +31,23 @@ const getBusById = async (req, res) => {
     if (!bus) return res.status(404).json({ message: "Bus not found" });
     res.status(200).json(bus);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message, success: false });
+  }
+};
+
+const updateBus = async (req, res) => {
+  console.log(req.body);
+  try {
+    const { id } = req.params;
+    const updatedData = req.body;
+    const updatedBus = await Bus.findByIdAndUpdate(id, updatedData, {
+      new: true,
+    });
+    if (!updatedBus)
+      return res.status(404).json({ message: "Bus not found", sucess: true });
+    res.status(200).json({ message: "Bus Updated successfully", sucess: true });
+  } catch (error) {
+    res.status(500).json({ message: error.message, success: false });
   }
 };
 
@@ -39,4 +55,6 @@ module.exports = {
   Bus,
   createBus,
   getAllBuses,
+  getBusById,
+  updateBus,
 };

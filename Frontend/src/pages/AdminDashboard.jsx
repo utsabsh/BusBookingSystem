@@ -45,12 +45,21 @@ const Dashboard = () => {
               </span>
             </Link>
             <Link
-              to="/dashboard/create"
+              to="/dashboard/addbus"
               className="flex rounded-md p-2 cursor-pointer hover:bg-light-white hover:bg-purple-500  text-gray-300 text-sm items-center gap-x-4"
             >
               <IoPeople color="white" size={25} />
               <span className={`${!open && "hidden"} origin-left duration-200`}>
                 Add bus
+              </span>
+            </Link>
+            <Link
+              to="/dashboard/getbus"
+              className="flex rounded-md p-2 cursor-pointer hover:bg-light-white hover:bg-purple-500  text-gray-300 text-sm items-center gap-x-4"
+            >
+              <IoPeople color="white" size={25} />
+              <span className={`${!open && "hidden"} origin-left duration-200`}>
+                get bus
               </span>
             </Link>
 

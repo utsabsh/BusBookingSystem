@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { Bus_API_END_POINT } from "../utlis/constant";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const AddBus = () => {
   const user = useSelector((state) => state.auth.user);
@@ -16,6 +17,7 @@ const AddBus = () => {
     userId: "", // Assume this is set dynamically
   });
   //   console.log(user._id);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -36,9 +38,9 @@ const AddBus = () => {
       );
       if (res.data.success) {
         toast.success(res.data.message);
+        navigate("/dashboard/getbus");
       }
     } catch (error) {
-      console.error("Error adding bus:", error.response.data.message);
       toast.error(error.response.data.message);
     }
   };

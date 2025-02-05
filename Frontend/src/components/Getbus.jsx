@@ -10,13 +10,23 @@ const Getbus = () => {
   const fetchBus = async () => {
     try {
       const res = await axios.get(`${Bus_API_END_POINT}/get`);
-      console.log(res);
       if (res.data) {
         setBuses(res.data);
         toast.success("success");
       }
     } catch (error) {
       toast.error("error", error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const res = await axios.delete(`${Bus_API_END_POINT}/delete/${id}`);
+      if (res.data) {
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      toast.error("Error", error);
     }
   };
   useEffect(() => {
@@ -47,7 +57,10 @@ const Getbus = () => {
               >
                 Edit
               </Link>
-              <button className="mt-2 py-1 px-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+              <button
+                onClick={() => handleDelete(bus._id)}
+                className="mt-2 py-1 px-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+              >
                 Delete
               </button>
             </div>

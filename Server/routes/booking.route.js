@@ -4,7 +4,7 @@ const Booking = require("../models/Booking.model");
 const router = express.Router();
 
 // Create a new booking
-router.post("/booking", async (req, res) => {
+router.post("/create", async (req, res) => {
   try {
     const booking = await Booking.create(req.body);
     res.status(201).json(booking);

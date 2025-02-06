@@ -12,10 +12,10 @@ const Getbus = () => {
       const res = await axios.get(`${Bus_API_END_POINT}/get`);
       if (res.data) {
         setBuses(res.data);
-        toast.success("success");
+        toast.success("Buses fetched successfully");
       }
     } catch (error) {
-      toast.error("error", error);
+      toast.error("Error fetching buses", error);
     }
   };
 
@@ -23,15 +23,18 @@ const Getbus = () => {
     try {
       const res = await axios.delete(`${Bus_API_END_POINT}/delete/${id}`);
       if (res.data) {
-        toast.success(res.data.message);
+        setBuses(buses.filter((bus) => bus._id !== id));
+        toast.success("Bus deleted successfully");
       }
     } catch (error) {
-      toast.error("Error", error);
+      toast.error("Error deleting bus", error);
     }
   };
+
   useEffect(() => {
     fetchBus();
   }, []);
+
   return (
     <div className="space-y-4">
       {buses.map((bus) => (
@@ -41,10 +44,21 @@ const Getbus = () => {
         >
           <div>
             <h3 className="text-lg font-semibold text-gray-800">
-              {bus.bus_name}
+              {bus.bus_name} ({bus.bus_number})
             </h3>
-            <p className="text-gray-600">{bus.route}</p>
-            <p className="text-gray-600">{bus.departure_time}</p>
+            <p className="text-gray-600">
+              Route: {bus.route.from} → {bus.route.to}
+            </p>
+            <p className="text-gray-600">
+              Departure: {new Date(bus.departure_time).toLocaleString()}
+            </p>
+            <p className="text-gray-600">
+              Arrival: {new Date(bus.arrival_time).toLocaleString()}
+            </p>
+            <p className="text-gray-600">Type: {bus.bus_type}</p>
+            <p className="text-gray-600">
+              Amenities: {bus.amenities.join(", ")}
+            </p>
           </div>
           <div className="text-right">
             <p className="text-indigo-600 font-semibold">
@@ -59,7 +73,7 @@ const Getbus = () => {
               </Link>
               <button
                 onClick={() => handleDelete(bus._id)}
-                className="mt-2 py-1 px-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                className="mt-2 py-1 px-3 bg-red-600 text-white rounded-md hover:bg-red-700"
               >
                 Delete
               </button>

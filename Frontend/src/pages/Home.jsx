@@ -11,21 +11,34 @@ const Home = () => {
   const navigate = useNavigate();
   const [buses, setBuses] = useState([]);
 
-  const handleSearch = () => {
-    console.log("Search for buses...");
+  const handleSearch = async () => {
+    try {
+      const res = await axios.get(`${Bus_API_END_POINT}/search`, {
+        params: { departure, destination, date },
+      });
+      if (res.data) {
+        setBuses(res.data);
+        toast.success("Buses found!");
+      } else {
+        toast.error("No buses available for the selected route.");
+      }
+    } catch (error) {
+      toast.error("Error searching for buses", error);
+    }
   };
+
   const fetchBus = async () => {
     try {
       const res = await axios.get(`${Bus_API_END_POINT}/get`);
       if (res.data) {
-        console.log(res.data);
         setBuses(res.data);
-        toast.success("success");
+        toast.success("Bus data loaded successfully");
       }
     } catch (error) {
-      toast.error("error", error);
+      toast.error("Error fetching bus details");
     }
   };
+
   useEffect(() => {
     fetchBus();
   }, []);
@@ -37,7 +50,13 @@ const Home = () => {
           Bus Ticket Booking
         </h1>
 
-        <div className="space-y-4">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearch();
+          }}
+          className="space-y-4"
+        >
           <div className="flex flex-col">
             <label htmlFor="departure" className="text-gray-700">
               Departure
@@ -49,6 +68,7 @@ const Home = () => {
               onChange={(e) => setDeparture(e.target.value)}
               className="px-4 py-2 border rounded-md mt-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="Enter departure city"
+              required
             />
           </div>
 
@@ -63,6 +83,7 @@ const Home = () => {
               onChange={(e) => setDestination(e.target.value)}
               className="px-4 py-2 border rounded-md mt-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="Enter destination city"
+              required
             />
           </div>
 
@@ -76,44 +97,52 @@ const Home = () => {
               value={date}
               onChange={(e) => setDate(e.target.value)}
               className="px-4 py-2 border rounded-md mt-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              required
             />
           </div>
 
           <button
-            onClick={handleSearch}
+            type="submit"
             className="w-full py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             Search Buses
           </button>
-        </div>
+        </form>
       </div>
 
       <div className="p-10 w-full max-w-xl bg-gray-100 rounded-lg h-100 overflow-y-auto">
-        <h2 className="text-xl font-semibold text-center text-gray-800 mb-4 ">
+        <h2 className="text-xl font-semibold text-center text-gray-800 mb-4">
           Available Buses
         </h2>
         <div className="space-y-4">
-          {buses.map((bus) => (
-            <div
-              key={bus._id}
-              className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center"
-            >
-              <div>
-                <h3 className="text-lg font-semibold text-gray-800">
-                  {bus.bus_name}
-                </h3>
-                <p className="text-gray-600">{bus.route}</p>
+          {buses.length > 0 ? (
+            buses.map((bus) => (
+              <div
+                key={bus._id}
+                className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center"
+              >
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    {bus.bus_name}
+                  </h3>
+                  <p className="text-gray-600">{bus.route.fromS}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-indigo-600 font-semibold">
+                    Seats available: {bus.available_seats}
+                  </p>
+                  <Link
+                    to={`/seats/${bus?._id}`}
+                    className="mt-2 py-1 px-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+                  >
+                    Book Now
+                  </Link>
+                </div>
               </div>
-              <div className="text-right">
-                <p className="text-indigo-600 font-semibold">
-                  Seats available: {bus.available_seats}
-                </p>
-                <button className="mt-2 py-1 px-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
-                  <Link to={`/seats/${bus?._id}`}> Book Now</Link>
-                </button>
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-center text-gray-600">No buses available.</p>
+          )}
         </div>
       </div>
     </div>

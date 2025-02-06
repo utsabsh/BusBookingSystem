@@ -1,38 +1,34 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Bus_API_END_POINT } from "../utlis/constant";
+import { toast } from "sonner";
 
 const Home = () => {
   const [departure, setDeparture] = useState("");
   const [destination, setDestination] = useState("");
   const [date, setDate] = useState("");
   const navigate = useNavigate();
-  const [buses, setBuses] = useState([
-    {
-      id: 1,
-      busName: "Express 101",
-      departure: "City A",
-      destination: "City B",
-      availableSeats: 30,
-    },
-    {
-      id: 2,
-      busName: "City Cruiser",
-      departure: "City A",
-      destination: "City B",
-      availableSeats: 20,
-    },
-    {
-      id: 3,
-      busName: "Bus Fast 300",
-      departure: "City B",
-      destination: "City A",
-      availableSeats: 25,
-    },
-  ]);
+  const [buses, setBuses] = useState([]);
 
   const handleSearch = () => {
     console.log("Search for buses...");
   };
+  const fetchBus = async () => {
+    try {
+      const res = await axios.get(`${Bus_API_END_POINT}/get`);
+      if (res.data) {
+        console.log(res.data);
+        setBuses(res.data);
+        toast.success("success");
+      }
+    } catch (error) {
+      toast.error("error", error);
+    }
+  };
+  useEffect(() => {
+    fetchBus();
+  }, []);
 
   return (
     <div className="min-h-screen bg-purple-400 flex flex-row items-center justify-center py-10 gap-5">
@@ -99,23 +95,21 @@ const Home = () => {
         <div className="space-y-4">
           {buses.map((bus) => (
             <div
-              key={bus.id}
+              key={bus._id}
               className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center"
             >
               <div>
                 <h3 className="text-lg font-semibold text-gray-800">
-                  {bus.busName}
+                  {bus.bus_name}
                 </h3>
-                <p className="text-gray-600">
-                  {bus.departure} → {bus.destination}
-                </p>
+                <p className="text-gray-600">{bus.route}</p>
               </div>
               <div className="text-right">
                 <p className="text-indigo-600 font-semibold">
-                  Seats available: {bus.availableSeats}
+                  Seats available: {bus.available_seats}
                 </p>
                 <button className="mt-2 py-1 px-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
-                  <Link to={`/seats/${bus?.id}`}> Book Now</Link>
+                  <Link to={`/seats/${bus?._id}`}> Book Now</Link>
                 </button>
               </div>
             </div>

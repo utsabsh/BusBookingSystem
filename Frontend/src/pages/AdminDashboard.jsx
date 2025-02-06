@@ -1,13 +1,36 @@
 import { BsSpeedometer2 } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci";
 import { IoPeople } from "react-icons/io5";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 
 import logo from "../assets/logo.png";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { USER_API_END_POINT } from "../utlis/constant";
+import { setUser } from "../redux/authSlice";
+import { toast } from "sonner";
 
 const Dashboard = () => {
   const [open, setOpen] = useState(true);
+  const { user } = useSelector((Store) => Store.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const logoutHandler = async () => {
+    try {
+      const res = await axios.get(`${USER_API_END_POINT}/logout`, {
+        withCredentials: true,
+      });
+      if (res.data.success) {
+        dispatch(setUser(null));
+        navigate("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
 
   return (
     <div className="flex">
@@ -65,7 +88,10 @@ const Dashboard = () => {
 
             <li className="flex rounded-md p-2 cursor-pointer hover:bg-light-white  hover:bg-purple-500 text-gray-300 text-sm items-center gap-x-4">
               <CiLogout color="white" size={25} />
-              <span className={`${!open && "hidden"} origin-left duration-200`}>
+              <span
+                onClick={logoutHandler}
+                className={`${!open && "hidden"} origin-left duration-200`}
+              >
                 Logout
               </span>
             </li>

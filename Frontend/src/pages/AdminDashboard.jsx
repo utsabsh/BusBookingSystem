@@ -85,6 +85,15 @@ const Dashboard = () => {
                 get bus
               </span>
             </Link>
+            <Link
+              to="/dashboard/booking"
+              className="flex rounded-md p-2 cursor-pointer hover:bg-light-white hover:bg-purple-500  text-gray-300 text-sm items-center gap-x-4"
+            >
+              <IoPeople color="white" size={25} />
+              <span className={`${!open && "hidden"} origin-left duration-200`}>
+                Booking
+              </span>
+            </Link>
 
             <li className="flex rounded-md p-2 cursor-pointer hover:bg-light-white  hover:bg-purple-500 text-gray-300 text-sm items-center gap-x-4">
               <CiLogout color="white" size={25} />

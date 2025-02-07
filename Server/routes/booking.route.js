@@ -39,4 +39,36 @@ router.get("/getbooking/:id", async (req, res) => {
   }
 });
 
+// Get bookings by user_id
+router.get("/getbooking/user/:userId", async (req, res) => {
+  try {
+    const bookings = await Booking.find({
+      user_id: req.params.userId,
+    }).populate("user_id bus_id");
+    if (!bookings.length)
+      return res
+        .status(404)
+        .json({ message: "No bookings found for this user" });
+    res.status(200).json(bookings);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get bookings by bus_id
+router.get("/getbooking/bus/:busId", async (req, res) => {
+  try {
+    const bookings = await Booking.find({ bus_id: req.params.busId }).populate(
+      "user_id bus_id"
+    );
+    if (!bookings.length)
+      return res
+        .status(404)
+        .json({ message: "No bookings found for this bus" });
+    res.status(200).json(bookings);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;

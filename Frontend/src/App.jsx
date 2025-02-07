@@ -10,6 +10,7 @@ import EditBus from "./components/Editbus";
 import Seat from "./components/Seat";
 import Booking from "./pages/Booking";
 import AdminBooking from "./components/AdminBooking";
+import BookingByBusId from "./components/BookingByBusId";
 
 function App() {
   return (
@@ -22,6 +23,10 @@ function App() {
           <Route path="/dashboard/addBus" element={<AddBus />} />
           <Route path="/dashboard/editBus/:id" element={<EditBus />} />
           <Route path="/dashboard/booking" element={<AdminBooking />} />
+          <Route
+            path="/dashboard/getbusbyid/:id"
+            element={<BookingByBusId />}
+          />
         </Route>
         <Route path="/create" element={<AddBus />} />
         <Route path="/seats/:id" element={<Seat />} />

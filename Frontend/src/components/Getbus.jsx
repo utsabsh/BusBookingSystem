@@ -71,6 +71,12 @@ const Getbus = () => {
               >
                 Edit
               </Link>
+              <Link
+                to={`/dashboard/getbusbyid/${bus._id}`}
+                className="mt-2 py-1 px-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
+              >
+                get
+              </Link>
               <button
                 onClick={() => handleDelete(bus._id)}
                 className="mt-2 py-1 px-3 bg-red-600 text-white rounded-md hover:bg-red-700"

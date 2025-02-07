@@ -8,6 +8,7 @@ import AddBus from "./components/Addbus";
 import Getbus from "./components/Getbus";
 import EditBus from "./components/Editbus";
 import Seat from "./components/Seat";
+import Booking from "./pages/Booking";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/create" element={<AddBus />} />
         <Route path="/seats/:id" element={<Seat />} />
         <Route path="/getBus" element={<Getbus />} />
+        <Route path="/booking" element={<Booking />} />
 
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<SignIn />} />

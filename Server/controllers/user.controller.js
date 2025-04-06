@@ -121,4 +121,19 @@ const logout = async (req, res) => {
   }
 };
 
-module.exports = { register, login, logout };
+const updateProfile = async (req, res) => {
+  console.log("update route hit", req.params);
+  try {
+    const { username, email, role } = req.body;
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { username, email, role },
+      { new: true }
+    );
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+module.exports = { register, login, logout, updateProfile };

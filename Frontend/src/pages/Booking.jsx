@@ -11,7 +11,6 @@ const Booking = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   const handleGetBooking = async () => {
     try {
       const res = await axios.get(
@@ -26,12 +25,11 @@ const Booking = () => {
       }
     } catch (error) {
       setError("Error fetching booking: " + error.message);
-      toast.error("Error fetching booking: " + error.message);
     } finally {
       setLoading(false);
     }
   };
-
+  console.log(bookings);
   useEffect(() => {
     handleGetBooking();
   }, []);
@@ -45,7 +43,15 @@ const Booking = () => {
   }
 
   if (error) {
-    return <p className="text-center text-red-500 font-semibold">{error}</p>;
+    return (
+      <>
+        <Navbar />
+
+        <p className="text-center text-red-500 font-semibold">
+          {error && "no booking found "}
+        </p>
+      </>
+    );
   }
 
   if (!bookings.length) {
@@ -73,7 +79,7 @@ const Booking = () => {
         <div className="space-y-4">
           {bookings.map((book) => (
             <div
-              key={book._id}
+              key={book?._id}
               className="bg-white shadow-md rounded-lg p-4 border"
             >
               <h3 className="text-lg font-medium text-gray-900">

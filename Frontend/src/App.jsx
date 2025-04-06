@@ -11,6 +11,8 @@ import Seat from "./components/Seat";
 import Booking from "./pages/Booking";
 import AdminBooking from "./components/AdminBooking";
 import BookingByBusId from "./components/BookingByBusId";
+import ProtectedRoute from "./utlis/ProtectedRoute";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -18,20 +20,60 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />}>
-          <Route path="/dashboard/getbus" element={<Getbus />} />
-          <Route path="/dashboard/addBus" element={<AddBus />} />
-          <Route path="/dashboard/editBus/:id" element={<EditBus />} />
-          <Route path="/dashboard/booking" element={<AdminBooking />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        >
+          <Route
+            path="/dashboard/getbus"
+            element={
+              <ProtectedRoute>
+                <Getbus />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/addBus"
+            element={
+              <ProtectedRoute>
+                <AddBus />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/editBus/:id"
+            element={
+              <ProtectedRoute>
+                <EditBus />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/dashboard/booking"
+            element={
+              <ProtectedRoute>
+                <AdminBooking />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/dashboard/getbusbyid/:id"
-            element={<BookingByBusId />}
+            element={
+              <ProtectedRoute>
+                <BookingByBusId />
+              </ProtectedRoute>
+            }
           />
         </Route>
         <Route path="/create" element={<AddBus />} />
         <Route path="/seats/:id" element={<Seat />} />
         <Route path="/getBus" element={<Getbus />} />
         <Route path="/booking" element={<Booking />} />
+        <Route path="/profile" element={<Profile />} />
 
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<SignIn />} />

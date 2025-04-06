@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Bus_API_END_POINT } from "../utlis/constant";
 import { toast } from "sonner";
 import Navbar from "../components/Navbar";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   const [departure, setDeparture] = useState("");
@@ -11,6 +12,12 @@ const Home = () => {
   const [date, setDate] = useState("");
   const navigate = useNavigate();
   const [buses, setBuses] = useState([]);
+  const { user } = useSelector((store) => store.auth);
+  useEffect(() => {
+    if (user?.role === "admin") {
+      navigate("/dashboard");
+    }
+  }, []);
 
   const handleSearch = async () => {
     try {

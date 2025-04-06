@@ -41,6 +41,7 @@ router.get("/getbooking/:id", async (req, res) => {
 
 // Get bookings by user_id
 router.get("/getbooking/user/:userId", async (req, res) => {
+  console.log("booking route hit", req.params.userId);
   try {
     const bookings = await Booking.find({
       user_id: req.params.userId,
@@ -56,7 +57,7 @@ router.get("/getbooking/user/:userId", async (req, res) => {
 });
 
 // Get bookings by bus_id
-router.get("/getbooking/bus/:busId", async (req, res) => {
+router.get("/booking/getbooking/bus/:busId", async (req, res) => {
   try {
     const bookings = await Booking.find({ bus_id: req.params.busId }).populate(
       "user_id bus_id"
